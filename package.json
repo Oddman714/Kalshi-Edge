@@ -1,0 +1,9 @@
+{
+  "name": "kalshi-bot-v9",
+  "version": "9.0.0",
+  "description": "KalshiBot v9 — autonomous prediction market trading bot",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18.0.0" },
+  "dependencies": {}
+}
