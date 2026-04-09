@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#050505">
+<title>Kalshi Edge</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiS2Fsc2hpIEVkZ2UiLCJzaG9ydF9uYW1lIjoiS0VkZ2UiLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzA1MDUwNSIsInRoZW1lX2NvbG9yIjoiIzA1MDUwNSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUJtYVd4c1BTSmtZV1FpSUhOMGVXeGxQU0p6ZDJJZ1lteGhZMnN0ZFhKc0tDSmJJREV5TUNBd1hTSWdabWxzYkQwaVkyVnlkQ0lnWm1sc2JEMGlZMlZwYmlJK1BIUmxlSFFnWm1sc2JEMGlJemxqT1RrNUlpQmhZMnRuY205MWJtUTlJakJCT0RRd1JWWTJPVE15SWlCalpYSjBhV1pwWTJGMFpUMGlOakFpSUhOMGVXeGxQU0l3TGpBM0lpQm1hV3hzUFNJaldFVWlQakVnTVNBeU1DOTRPQ0F4TURBd01EQWlQQzkwWlhoMFBqd3ZjM1puUGc9PSIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwic2l6ZXMiOiIxOTJ4MTkyIn1dfQ==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #050505;
+  --surface: #0f0f11;
+  --surface2: #171719;
+  --surface3: #202024;
+  --surface4: #2a2a2f;
+  --border: rgba(255,255,255,0.055);
+  --border2: rgba(255,255,255,0.10);
+  --text: #f2f2f5;
+  --text2: #9898a0;
+  --text3: #5a5a60;
+  --green: #30d158;
+  --green-dim: rgba(48,209,88,0.11);
+  --green-glow: rgba(48,209,88,0.25);
+  --red: #ff453a;
+  --red-dim: rgba(255,69,58,0.11);
+  --blue: #0a84ff;
+  --blue-dim: rgba(10,132,255,0.11);
+  --orange: #ff9f0a;
+  --orange-dim: rgba(255,159,10,0.11);
+  --purple: #bf5af2;
+  --purple-dim: rgba(191,90,242,0.11);
+  --r: 14px;
+  --r-sm: 9px;
+  --safe-top: env(safe-area-inset-top, 20px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html { height: 100%; }
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100dvh;
+  padding-top: var(--safe-top);
+  padding-bottom: calc(68px + var(--safe-bottom));
+}
+
+/* ══════════════ HEADER ══════════════ */
+.hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px 8px;
+  position: sticky;
+  top: var(--safe-top);
+  z-index: 40;
+  background: rgba(5,5,5,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.hdr-brand { display: flex; align-items: center; gap: 9px; }
+.hdr-logo {
+  width: 30px; height: 30px;
+  background: linear-gradient(135deg, #30d158 0%, #0a84ff 100%);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 12px; color: #000; letter-spacing: -0.5px;
+}
+.hdr-title { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+.hdr-sub { font-size: 10px; color: var(--text3); font-weight: 500; margin-top: 1px; }
+.mode-pill {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 4px 10px; border-radius: 20px;
+  display: flex; align-items: center; gap: 5px;
+}
+.mode-pill .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+}
+.mode-live { background: var(--green-dim); color: var(--green); }
+.mode-live .dot { background: var(--green); animation: pulseD 2s infinite; }
+.mode-paper { background: var(--orange-dim); color: var(--orange); }
+.mode-paper .dot { background: var(--orange); }
+.mode-off { background: rgba(255,255,255,0.05); color: var(--text3); }
+.mode-off .dot { background: var(--text3); }
+@keyframes pulseD {
+  0%,100% { box-shadow: 0 0 0 0 rgba(48,209,88,0.5); }
+  50% { box-shadow: 0 0 0 4px rgba(48,209,88,0); }
+}
+
+/* ══════════════ VIEWS ══════════════ */
+.view { display: none; animation: fadeIn 0.18s ease; }
+.view.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ══════════════ HERO CARD ══════════════ */
+.hero {
+  margin: 12px 14px 0;
+  padding: 22px 18px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -80px; right: -60px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(48,209,88,0.055) 0%, transparent 68%);
+  pointer-events: none;
+}
+.hero-label {
+  font-size: 11px; color: var(--text3); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 5px;
+}
+.hero-bal {
+  font-size: 40px; font-weight: 700; letter-spacing: -2px; line-height: 1;
+  margin-bottom: 14px; font-variant-numeric: tabular-nums;
+}
+.hero-row {
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  margin-bottom: 14px;
+}
+.badge {
+  font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 7px;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.badge-up { background: var(--green-dim); color: var(--green); }
+.badge-down { background: var(--red-dim); color: var(--red); }
+.badge-neutral { background: var(--surface3); color: var(--text3); }
+.badge-blue { background: var(--blue-dim); color: var(--blue); }
+.badge-orange { background: var(--orange-dim); color: var(--orange); }
+.badge-purple { background: var(--purple-dim); color: var(--purple); }
+.hero-row-label { font-size: 12px; color: var(--text3); font-weight: 500; }
+
+/* Doubling progress bar */
+.doubling-bar-wrap { margin-top: 2px; }
+.doubling-bar-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 6px;
+}
+.doubling-bar-label { font-size: 11px; color: var(--text3); font-weight: 500; }
+.doubling-bar-pct { font-size: 11px; color: var(--text2); font-weight: 600; }
+.doubling-bar-track {
+  height: 4px; background: var(--surface3); border-radius: 2px; overflow: hidden;
+}
+.doubling-bar-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--green), #0a84ff);
+  transition: width 0.6s ease;
+}
+.doubling-bar-sub {
+  display: flex; justify-content: space-between;
+  margin-top: 5px;
+}
+.doubling-bar-sub span { font-size: 10px; color: var(--text3); }
+
+/* ══════════════ STATS GRID ══════════════ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 8px 14px 0;
+}
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 13px 10px;
+  text-align: center;
+}
+.stat-val {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+.stat-lbl {
+  font-size: 10px; color: var(--text3); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.7px; margin-top: 3px;
+}
+
+/* ══════════════ PHASE CARD ══════════════ */
+.phase-card {
+  margin: 8px 14px 0;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.phase-left { flex: 1; min-width: 0; }
+.phase-name { font-size: 13px; font-weight: 700; letter-spacing: -0.2px; }
+.phase-desc { font-size: 11px; color: var(--text3); margin-top: 2px; line-height: 1.4; }
+.phase-right { text-align: right; flex-shrink: 0; }
+.phase-kelly { font-size: 11px; color: var(--text3); }
+.phase-kelly b { color: var(--orange); }
+
+/* ══════════════ CONTROLS ══════════════ */
+.controls {
+  display: flex; gap: 7px; margin: 8px 14px 0;
+}
+.btn {
+  flex: 1; padding: 13px 10px;
+  border: none; border-radius: var(--r);
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: transform 0.15s, opacity 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+}
+.btn:active { transform: scale(0.96); opacity: 0.85; }
+.btn:disabled { opacity: 0.5; pointer-events: none; }
+.btn-green { background: var(--green); color: #000; }
+.btn-red { background: var(--red); color: #fff; }
+.btn-ghost {
+  background: var(--surface2); color: var(--text);
+  border: 1px solid var(--border2); flex: 0.65;
+}
+.btn-blue {
+  background: var(--blue-dim); color: var(--blue);
+  border: 1px solid rgba(10,132,255,0.18); flex: 0.65;
+}
+
+/* ══════════════ SECTION ══════════════ */
+.section { margin: 16px 14px 0; }
+.section-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 9px;
+}
+.section-title { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; }
+.section-count {
+  font-size: 11px; color: var(--text3); background: var(--surface2);
+  padding: 2px 8px; border-radius: 9px; font-weight: 600;
+}
+.section-action {
+  font-size: 12px; color: var(--blue); font-weight: 600; cursor: pointer;
+  background: none; border: none; font-family: inherit; padding: 0;
+}
+
+/* ══════════════ CARD LIST ══════════════ */
+.card-list { display: flex; flex-direction: column; gap: 6px; }
+
+/* Trade / Signal Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 13px 14px;
+}
+.card-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 8px; margin-bottom: 6px;
+}
+.card-ticker {
+  font-size: 13px; font-weight: 700; line-height: 1.35;
+  color: var(--text); flex: 1; font-family: 'DM Mono', monospace;
+  word-break: break-all;
+}
+.card-title {
+  font-size: 13px; font-weight: 600; line-height: 1.35; flex: 1;
+}
+.side-badge {
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  padding: 3px 7px; border-radius: 5px; flex-shrink: 0; letter-spacing: 0.3px;
+}
+.side-yes { background: var(--green-dim); color: var(--green); }
+.side-no  { background: var(--red-dim); color: var(--red); }
+.card-meta {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  font-size: 11px; color: var(--text3); font-weight: 500;
+}
+.card-meta .hi { color: var(--green); }
+.card-meta .warn { color: var(--orange); }
+.card-meta .info { color: var(--blue); }
+.card-reasoning {
+  font-size: 11px; color: var(--text2); margin-top: 7px;
+  line-height: 1.45; font-style: italic; border-top: 1px solid var(--border);
+  padding-top: 7px;
+}
+.status-pill {
+  font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 5px;
+  text-transform: uppercase; letter-spacing: 0.3px;
+}
+.status-placed { background: var(--green-dim); color: var(--green); }
+.status-resolved { background: var(--blue-dim); color: var(--blue); }
+.status-simulated { background: var(--orange-dim); color: var(--orange); }
+.status-error { background: var(--red-dim); color: var(--red); }
+.status-open { background: var(--surface3); color: var(--text2); }
+
+/* Position Card */
+.pos-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 13px 14px;
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+}
+.pos-left { flex: 1; min-width: 0; }
+.pos-ticker {
+  font-size: 13px; font-weight: 700; font-family: 'DM Mono', monospace;
+  margin-bottom: 3px; word-break: break-all;
+}
+.pos-detail { font-size: 11px; color: var(--text3); }
+.pos-right { text-align: right; flex-shrink: 0; }
+.pos-contracts { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pos-cost { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+/* Market Card */
+.mkt-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 14px;
+}
+.mkt-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 8px; margin-bottom: 6px;
+}
+.mkt-title { font-size: 12px; font-weight: 600; line-height: 1.35; flex: 1; color: var(--text); }
+.mkt-meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 11px; color: var(--text3); }
+.mkt-price-row { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+.mkt-ask { font-size: 15px; font-weight: 700; }
+.mkt-bid { font-size: 12px; color: var(--text3); }
+
+/* Log Panel */
+.log-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px;
+  max-height: 65vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.log-entry {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px; line-height: 1.65;
+  color: var(--text3); white-space: pre-wrap; word-break: break-all;
+  border-bottom: 1px solid rgba(255,255,255,0.025); padding: 2px 0;
+}
+.log-entry:last-child { border-bottom: none; }
+.log-info { color: var(--text3); }
+.log-warn { color: var(--orange); }
+.log-error { color: var(--red); }
+.log-trade { color: var(--green); }
+.log-brain { color: var(--blue); }
+
+/* Empty State */
+.empty {
+  text-align: center; padding: 28px 16px;
+  color: var(--text3); font-size: 13px;
+}
+.empty-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.4; }
+.empty p { margin-top: 4px; font-size: 12px; color: var(--text3); }
+
+/* ══════════════ LIVE FEED ══════════════ */
+.feed-wrap {
+  margin: 8px 14px 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.feed-hdr {
+  display: flex; align-items: center; gap: 7px;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px; font-weight: 600; color: var(--text2);
+}
+.feed-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.feed-dot.live { animation: pulseD 2s infinite; }
+.feed-list {
+  max-height: 120px; overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 0;
+}
+.feed-item {
+  font-size: 11px; padding: 4px 14px; line-height: 1.4;
+  color: var(--text3); white-space: pre-wrap; word-break: break-all;
+}
+.feed-item:first-child { color: var(--text2); }
+
+/* ══════════════ TAB BAR ══════════════ */
+.tabbar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(10,10,12,0.88);
+  backdrop-filter: saturate(200%) blur(24px);
+  -webkit-backdrop-filter: saturate(200%) blur(24px);
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-around;
+  padding: 6px 0 calc(6px + var(--safe-bottom));
+  z-index: 50;
+}
+.tab {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 9.5px; font-weight: 600; color: var(--text3);
+  cursor: pointer; padding: 4px 14px; min-width: 56px;
+  transition: color 0.15s; border: none; background: none;
+  text-transform: uppercase; letter-spacing: 0.4px;
+  position: relative;
+}
+.tab svg { width: 21px; height: 21px; stroke-width: 1.8; }
+.tab.active { color: var(--green); }
+.tab.active svg { stroke-width: 2.2; }
+.tab-badge {
+  position: absolute; top: 2px; right: 8px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--red); color: #fff;
+  font-size: 9px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  display: none;
+}
+.tab-badge.show { display: flex; }
+
+/* ══════════════ MODAL ══════════════ */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 80; display: none;
+  align-items: flex-end; justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal-sheet {
+  background: var(--surface);
+  border-radius: 20px 20px 0 0;
+  width: 100%; max-width: 480px;
+  padding: 18px 18px calc(18px + var(--safe-bottom));
+  animation: slideUp 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+  border: 1px solid var(--border2);
+  border-bottom: none;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.modal-handle {
+  width: 32px; height: 4px; background: var(--surface4);
+  border-radius: 2px; margin: 0 auto 14px;
+}
+.modal-title { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+.test-row {
+  background: var(--surface2); border-radius: var(--r-sm);
+  padding: 11px 12px; margin-bottom: 7px;
+  border-left: 3px solid transparent;
+}
+.test-row.ok { border-left-color: var(--green); }
+.test-row.fail { border-left-color: var(--red); }
+.test-row .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text3); font-weight: 600; }
+.test-row .val { font-size: 13px; font-weight: 600; margin-top: 2px; }
+
+/* ══════════════ SPINNER ══════════════ */
+.spin {
+  width: 16px; height: 16px;
+  border: 2px solid var(--surface3);
+  border-top-color: var(--text);
+  border-radius: 50%;
+  animation: spinning 0.55s linear infinite;
+  display: inline-block;
+}
+@keyframes spinning { to { transform: rotate(360deg); } }
+
+/* ══════════════ SCROLLBAR ══════════════ */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface4); border-radius: 2px; }
+
+/* ══════════════ SYNC BTN ══════════════ */
+.sync-btn {
+  font-size: 11px; color: var(--text3); font-weight: 600;
+  background: none; border: none; font-family: inherit;
+  cursor: pointer; padding: 4px 8px; border-radius: 6px;
+  display: flex; align-items: center; gap: 4px;
+}
+.sync-btn:active { background: var(--surface2); }
+
+/* Page header row for sub-views */
+.page-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 18px 8px;
+}
+.page-hdr-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+
+/* Error banner */
+.err-banner {
+  margin: 8px 14px 0;
+  padding: 10px 14px;
+  background: var(--red-dim);
+  border: 1px solid rgba(255,69,58,0.2);
+  border-radius: var(--r);
+  font-size: 12px; color: var(--red); font-weight: 500;
+  display: none;
+}
+.err-banner.show { display: block; }
+
+/* Last update timestamp */
+.last-update {
+  font-size: 10px; color: var(--text3);
+  text-align: center; padding: 10px 0 4px;
+}
+
+/* Kalshi source label */
+.kalshi-tag {
+  font-size: 9px; color: var(--blue); font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.4px;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     HEADER
+═══════════════════════════════════════ -->
+<div class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-logo">KE</div>
+    <div>
+      <div class="hdr-title">Kalshi Edge</div>
+      <div class="hdr-sub" id="hdrSub">v10 · Connecting…</div>
+    </div>
+  </div>
+  <div class="mode-pill mode-off" id="modePill">
+    <div class="dot"></div>
+    <span id="modeText">OFFLINE</span>
+  </div>
+</div>
+
+<!-- Error banner (only shows on persistent failures) -->
+<div class="err-banner" id="errBanner"></div>
+
+<!-- ═══════════════════════════════════════
+     VIEW: DASHBOARD
+═══════════════════════════════════════ -->
+<div id="viewDash" class="view active">
+
+  <!-- Hero Balance -->
+  <div class="hero">
+    <div class="hero-label">Portfolio Balance</div>
+    <div class="hero-bal" id="heroBalance">$—</div>
+    <div class="hero-row">
+      <span class="hero-row-label">Today</span>
+      <span class="badge badge-neutral" id="todayPnl">+$0.00</span>
+      <span class="hero-row-label">Total</span>
+      <span class="badge badge-neutral" id="totalPnl">+$0.00</span>
+      <span class="badge badge-blue" id="drawdown">0% DD</span>
+    </div>
+    <!-- Doubling progress bar -->
+    <div class="doubling-bar-wrap">
+      <div class="doubling-bar-header">
+        <span class="doubling-bar-label" id="doublingLabel">Next doubling</span>
+        <span class="doubling-bar-pct" id="doublingPct">0%</span>
+      </div>
+      <div class="doubling-bar-track">
+        <div class="doubling-bar-fill" id="doublingFill" style="width:0%"></div>
+      </div>
+      <div class="doubling-bar-sub">
+        <span id="doublingFrom">$50</span>
+        <span id="doublingTarget">$100</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-val" id="statWinRate" style="color:var(--green)">—</div>
+      <div class="stat-lbl">Win Rate</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="statTrades">0</div>
+      <div class="stat-lbl">Trades</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="statOpen" style="color:var(--blue)">0</div>
+      <div class="stat-lbl">Open</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="statScans">0</div>
+      <div class="stat-lbl">Scans</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="statBrain">0</div>
+      <div class="stat-lbl">Brain</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="statCash" style="color:var(--orange)">$—</div>
+      <div class="stat-lbl">Available</div>
+    </div>
+  </div>
+
+  <!-- Phase Card -->
+  <div class="phase-card">
+    <div class="phase-left">
+      <div class="phase-name" id="phaseLabel">🌱 Seed</div>
+      <div class="phase-desc" id="phaseDesc">Loading phase data…</div>
+    </div>
+    <div class="phase-right">
+      <div class="phase-kelly">Kelly <b id="phaseKelly">55%</b></div>
+      <div class="phase-kelly">Edge <b id="phaseEdge" style="color:var(--green)">4%+</b></div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button class="btn btn-green" id="btnStart" onclick="toggleBot()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+      Start
+    </button>
+    <button class="btn btn-red" id="btnStop" onclick="toggleBot()" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+      Stop
+    </button>
+    <button class="btn btn-ghost" id="btnSync" onclick="forceSync()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Sync
+    </button>
+    <button class="btn btn-blue" onclick="openTest()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      Test
+    </button>
+  </div>
+
+  <!-- Live Feed -->
+  <div class="feed-wrap">
+    <div class="feed-hdr">
+      <div class="feed-dot live" id="feedDot"></div>
+      Live Alerts
+    </div>
+    <div class="feed-list" id="feedList">
+      <div class="feed-item" style="color:var(--text3)">Connecting to live feed…</div>
+    </div>
+  </div>
+
+  <!-- Recent Trades -->
+  <div class="section">
+    <div class="section-hdr">
+      <div class="section-title">Recent Trades</div>
+      <div class="section-count" id="tradeCount">0</div>
+    </div>
+    <div class="card-list" id="tradeList">
+      <div class="empty"><div class="empty-icon">📊</div>No trades yet.</div>
+    </div>
+  </div>
+
+  <div class="last-update" id="lastUpdate"></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     VIEW: POSITIONS
+═══════════════════════════════════════ -->
+<div id="viewPos" class="view">
+  <div class="page-hdr">
+    <div class="page-hdr-title">Positions</div>
+    <button class="sync-btn" onclick="forceSync()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Refresh
+    </button>
+  </div>
+  <div class="section" style="margin-top:0">
+    <div class="section-hdr">
+      <div class="section-title">Open Positions</div>
+      <div class="section-count" id="posCount">0</div>
+    </div>
+    <div class="card-list" id="posList">
+      <div class="empty"><div class="empty-icon">📈</div>No open positions.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     VIEW: SIGNALS
+═══════════════════════════════════════ -->
+<div id="viewSig" class="view">
+  <div class="page-hdr">
+    <div class="page-hdr-title">Signals</div>
+    <span class="badge badge-orange" id="sigAge" style="font-size:10px"></span>
+  </div>
+  <div class="section" style="margin-top:0">
+    <div class="section-hdr">
+      <div class="section-title">Brain Signals</div>
+      <div class="section-count" id="sigCount">0</div>
+    </div>
+    <div class="card-list" id="sigList">
+      <div class="empty"><div class="empty-icon">🧠</div><p>No signals yet. Bot will scan shortly.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     VIEW: MARKETS
+═══════════════════════════════════════ -->
+<div id="viewMkts" class="view">
+  <div class="page-hdr">
+    <div class="page-hdr-title">Markets</div>
+    <span class="badge badge-blue" id="mktCount" style="font-size:10px">0 found</span>
+  </div>
+  <div class="section" style="margin-top:0">
+    <div class="section-hdr">
+      <div class="section-title">Top Opportunities</div>
+      <span class="badge badge-neutral" style="font-size:10px">Scored by edge</span>
+    </div>
+    <div class="card-list" id="mktList">
+      <div class="empty"><div class="empty-icon">🔍</div><p>Markets load after first scan.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     VIEW: LOGS
+═══════════════════════════════════════ -->
+<div id="viewLogs" class="view">
+  <div class="page-hdr">
+    <div class="page-hdr-title">Logs</div>
+    <button class="sync-btn" onclick="refreshNow()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Refresh
+    </button>
+  </div>
+  <div class="section" style="margin-top:0">
+    <div class="log-panel" id="logPanel">
+      <div class="log-entry log-info">Waiting for logs…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TAB BAR
+═══════════════════════════════════════ -->
+<nav class="tabbar" id="tabbar">
+  <button class="tab active" data-view="Dash" onclick="switchTab('Dash',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
+      <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+      <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+      <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+      <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+    </svg>
+    Dash
+  </button>
+  <button class="tab" data-view="Pos" onclick="switchTab('Pos',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+    </svg>
+    Positions
+    <div class="tab-badge" id="posBadge">0</div>
+  </button>
+  <button class="tab" data-view="Sig" onclick="switchTab('Sig',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    Signals
+    <div class="tab-badge" id="sigBadge">0</div>
+  </button>
+  <button class="tab" data-view="Mkts" onclick="switchTab('Mkts',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
+      <line x1="12" y1="20" x2="12" y2="10"/>
+      <line x1="18" y1="20" x2="18" y2="4"/>
+      <line x1="6" y1="20" x2="6" y2="16"/>
+    </svg>
+    Markets
+  </button>
+  <button class="tab" data-view="Logs" onclick="switchTab('Logs',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="16" y1="13" x2="8" y2="13"/>
+      <line x1="16" y1="17" x2="8" y2="17"/>
+    </svg>
+    Logs
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     TEST MODAL
+═══════════════════════════════════════ -->
+<div class="modal-bg" id="testModal" onclick="if(event.target===this)closeTest()">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Connection Test</div>
+    <div id="testBody">
+      <div style="text-align:center;padding:28px">
+        <div class="spin"></div>
+        <div style="margin-top:10px;color:var(--text3);font-size:13px">Testing Kalshi API…</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost" style="width:100%;margin-top:10px" onclick="closeTest()">Done</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+// ═══════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════
+const BASE = '';          // same origin — works on Railway or local
+const POLL_MS = 8000;     // poll /api/state every 8s
+const MAX_FEED = 30;      // max live feed messages
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let lastState = null;
+let pollTimer = null;
+let feedItems = [];
+let failCount = 0;
+let sseSource = null;
+let lastUpdateTs = 0;
+let isSyncing = false;
+
+// ═══════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════
+function esc(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function fmt$(n) {
+  if (n == null || !isFinite(n)) return '$—';
+  if (Math.abs(n) >= 1000) return '$' + n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  return '$' + n.toFixed(2);
+}
+
+function fmtPnl(n) {
+  if (n == null || !isFinite(n)) return '+$0.00';
+  const abs = Math.abs(n).toFixed(2);
+  return (n >= 0 ? '+$' : '-$') + abs;
+}
+
+function fmtPct(n) {
+  if (n == null || !isFinite(n)) return '—';
+  return n.toFixed(1) + '%';
+}
+
+function timeAgo(ts) {
+  if (!ts) return '';
+  const sec = Math.floor((Date.now() - ts) / 1000);
+  if (sec < 60) return sec + 's ago';
+  if (sec < 3600) return Math.floor(sec/60) + 'm ago';
+  return Math.floor(sec/3600) + 'h ago';
+}
+
+function fmtHours(h) {
+  if (h >= 24*7) return Math.floor(h/24) + 'd';
+  if (h >= 24) return Math.floor(h/24) + 'd ' + Math.floor(h%24) + 'h';
+  if (h >= 1) return Math.floor(h) + 'h';
+  return Math.floor(h*60) + 'm';
+}
+
+function setBadgeClass(el, val) {
+  el.classList.remove('badge-up','badge-down','badge-neutral','badge-blue');
+  if (val > 0) el.classList.add('badge-up');
+  else if (val < 0) el.classList.add('badge-down');
+  else el.classList.add('badge-neutral');
+}
+
+// ═══════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════
+function switchTab(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  const view = document.getElementById('view' + name);
+  if (view) view.classList.add('active');
+  if (btn) btn.classList.add('active');
+  // Clear badge when visiting
+  if (name === 'Pos') { document.getElementById('posBadge').classList.remove('show'); }
+  if (name === 'Sig') { document.getElementById('sigBadge').classList.remove('show'); }
+}
+
+// ═══════════════════════════════════════════
+// MAIN DATA FETCH — ALL FROM /api/state
+// ═══════════════════════════════════════════
+async function fetchState() {
+  try {
+    const res = await fetch(BASE + '/api/state', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const d = await res.json();
+    failCount = 0;
+    document.getElementById('errBanner').classList.remove('show');
+    lastState = d;
+    lastUpdateTs = Date.now();
+    renderAll(d);
+    return d;
+  } catch(e) {
+    failCount++;
+    console.warn('fetchState error:', e.message);
+    if (failCount >= 3) {
+      const banner = document.getElementById('errBanner');
+      banner.textContent = '⚠️ Cannot reach server — retrying… (' + e.message + ')';
+      banner.classList.add('show');
+    }
+    return null;
+  }
+}
+
+// ═══════════════════════════════════════════
+// RENDER EVERYTHING
+// ═══════════════════════════════════════════
+function renderAll(d) {
+  if (!d) return;
+  renderHeader(d);
+  renderHero(d);
+  renderStats(d);
+  renderPhase(d);
+  renderControls(d);
+  renderTrades(d.trades || []);
+  renderPositions(d.openPositions || []);
+  renderSignals(d.signals || []);
+  renderMarkets(d.topMarkets || []);
+  renderLogs(d.logs || []);
+  renderLastUpdate();
+}
+
+function renderHeader(d) {
+  const pill = document.getElementById('modePill');
+  const modeText = document.getElementById('modeText');
+  const sub = document.getElementById('hdrSub');
+  pill.className = 'mode-pill';
+  if (!d.isRunning) {
+    pill.classList.add('mode-off');
+    modeText.textContent = 'OFFLINE';
+  } else if (d.dryRun) {
+    pill.classList.add('mode-paper');
+    modeText.textContent = 'PAPER';
+  } else {
+    pill.classList.add('mode-live');
+    modeText.textContent = 'LIVE';
+  }
+  sub.textContent = 'v10 · ' + (d.phase || 'SEED') + ' phase · ' + (d.isRunning ? 'Running' : 'Stopped');
+}
+
+function renderHero(d) {
+  // Balance — server returns dollars already, no /100
+  const bal = d.realBalance > 0 ? d.realBalance : d.balance;
+  document.getElementById('heroBalance').textContent = fmt$(bal);
+
+  // P&L badges
+  const today = d.todayPnl || 0;
+  const total = d.totalPnl || 0;
+  const todayEl = document.getElementById('todayPnl');
+  const totalEl = document.getElementById('totalPnl');
+  todayEl.textContent = fmtPnl(today);
+  setBadgeClass(todayEl, today);
+  totalEl.textContent = fmtPnl(total);
+  setBadgeClass(totalEl, total);
+
+  // Drawdown
+  const dd = d.drawdown || 0;
+  const ddEl = document.getElementById('drawdown');
+  ddEl.textContent = dd.toFixed(1) + '% DD';
+  ddEl.className = 'badge ' + (dd > 15 ? 'badge-down' : dd > 5 ? 'badge-orange' : 'badge-blue');
+
+  // Doubling progress bar
+  const pct = d.doublingProgress || 0;
+  const made = d.doublingsMade || 0;
+  const needed = d.doublingsNeeded || 0;
+  const target = d.nextTarget || 0;
+  const start = d.startingBankroll || 50;
+  const curLevel = start * Math.pow(2, made);
+  document.getElementById('doublingFill').style.width = pct + '%';
+  document.getElementById('doublingPct').textContent = pct.toFixed(0) + '%';
+  document.getElementById('doublingLabel').textContent =
+    made > 0 ? `Doubling #${made+1} · ${needed} to $500K` : `First doubling · ${needed} to $500K`;
+  document.getElementById('doublingFrom').textContent = fmt$(curLevel);
+  document.getElementById('doublingTarget').textContent = fmt$(target);
+}
+
+function renderStats(d) {
+  const total = (d.wins || 0) + (d.losses || 0);
+  const winRate = d.winRate != null ? fmtPct(d.winRate) : (total > 0 ? fmtPct(d.wins/total*100) : '—');
+  document.getElementById('statWinRate').textContent = winRate;
+  document.getElementById('statTrades').textContent = total;
+  document.getElementById('statOpen').textContent = d.openCount || (d.openPositions||[]).length;
+  document.getElementById('statScans').textContent = d.scanCount || 0;
+  document.getElementById('statBrain').textContent = d.brainCount || 0;
+  const cash = d.availableCash > 0 ? d.availableCash : (d.realBalance > 0 ? d.realBalance : d.balance);
+  document.getElementById('statCash').textContent = fmt$(cash);
+}
+
+function renderPhase(d) {
+  document.getElementById('phaseLabel').textContent = d.phaseLabel || '🌱 Seed';
+  document.getElementById('phaseDesc').textContent = d.phaseDesc || '—';
+  if (d.cfg) {
+    document.getElementById('phaseKelly').textContent = ((d.cfg.kellyFrac||0.55)*100).toFixed(0) + '%';
+    document.getElementById('phaseEdge').textContent = ((d.cfg.minEdge||0.04)*100).toFixed(0) + '%+';
+  }
+}
+
+function renderControls(d) {
+  const btnStart = document.getElementById('btnStart');
+  const btnStop = document.getElementById('btnStop');
+  if (d.isRunning) {
+    btnStart.style.display = 'none';
+    btnStop.style.display = 'flex';
+  } else {
+    btnStart.style.display = 'flex';
+    btnStop.style.display = 'none';
+  }
+}
+
+function renderTrades(trades) {
+  const el = document.getElementById('tradeList');
+  const cnt = document.getElementById('tradeCount');
+  cnt.textContent = trades.length;
+  if (!trades.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📊</div>No trades yet. Bot will trade when edge is found.</div>';
+    return;
+  }
+  el.innerHTML = trades.slice(0,20).map(t => {
+    const pnlStr = t.pnl != null ? fmtPnl(t.pnl) : '';
+    const pnlColor = t.pnl > 0 ? 'var(--green)' : t.pnl < 0 ? 'var(--red)' : 'var(--text3)';
+    const statusCls = t.status ? 'status-'+t.status.toLowerCase().replace(' ','-') : 'status-open';
+    const side = (t.side||'').toUpperCase();
+    const ago = timeAgo(t.resolvedAt || t.openedAt);
+    return `<div class="card">
+      <div class="card-top">
+        <div class="card-ticker">${esc(t.ticker)}</div>
+        <span class="side-badge ${side==='YES'?'side-yes':'side-no'}">${esc(side)}</span>
+      </div>
+      <div class="card-meta">
+        ${t.contracts ? `<span>${t.contracts}x</span>` : ''}
+        ${t.cost ? `<span>Cost: ${fmt$(t.cost)}</span>` : ''}
+        ${t.pnl != null ? `<span style="color:${pnlColor}">${pnlStr}</span>` : ''}
+        ${t.status ? `<span class="status-pill ${statusCls}">${esc(t.status)}</span>` : ''}
+        ${ago ? `<span>${ago}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPositions(positions) {
+  const el = document.getElementById('posList');
+  const cnt = document.getElementById('posCount');
+  cnt.textContent = positions.length;
+  // Update tab badge
+  const badge = document.getElementById('posBadge');
+  if (positions.length > 0) { badge.textContent = positions.length; badge.classList.add('show'); }
+  else badge.classList.remove('show');
+
+  if (!positions.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📈</div>No open positions on Kalshi.</div>';
+    return;
+  }
+  el.innerHTML = positions.map(p => {
+    const side = (p.side||'').toUpperCase();
+    const entry = p.entryPrice ? p.entryPrice + '¢' : '—';
+    const fromK = p.fromKalshi ? '<span class="kalshi-tag">Kalshi</span>' : '';
+    return `<div class="pos-card">
+      <div class="pos-left">
+        <div class="pos-ticker">${esc(p.ticker)} ${fromK}</div>
+        <div class="pos-detail">${side} · Entry ${entry}</div>
+      </div>
+      <div class="pos-right">
+        <div class="pos-contracts">${p.contracts || 0}<small style="font-size:11px;color:var(--text3)"> cts</small></div>
+        ${p.cost ? `<div class="pos-cost">Cost ${fmt$(p.cost)}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderSignals(signals) {
+  const el = document.getElementById('sigList');
+  const cnt = document.getElementById('sigCount');
+  cnt.textContent = signals.length;
+  // Tab badge
+  const badge = document.getElementById('sigBadge');
+  if (signals.length > 0) { badge.textContent = signals.length; badge.classList.add('show'); }
+  else badge.classList.remove('show');
+  // Age label
+  if (lastState && lastState.lastBrainAt) {
+    document.getElementById('sigAge').textContent = 'Brain ' + timeAgo(lastState.lastBrainAt);
+  }
+
+  if (!signals.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🧠</div><p>No signals yet. Claude scans every 2 min.</p></div>';
+    return;
+  }
+  el.innerHTML = signals.map(s => {
+    const side = (s.side||'YES').toUpperCase();
+    const edge = s.edge ? (s.edge*100).toFixed(1)+'%' : '—';
+    const conf = s.confidence ? (s.confidence*100).toFixed(0)+'%' : '—';
+    const mp = s.marketPrice ? (s.marketPrice*100).toFixed(0)+'¢' : '—';
+    const kelly = s.kellySize ? fmt$(s.kellySize) : '—';
+    const hours = s.hoursToClose ? fmtHours(s.hoursToClose) : '—';
+    return `<div class="card">
+      <div class="card-top">
+        <div class="card-ticker">${esc(s.ticker)}</div>
+        <span class="side-badge ${side==='YES'?'side-yes':'side-no'}">${side}</span>
+      </div>
+      <div class="card-meta">
+        <span>Mkt <b style="color:var(--text)">${mp}</b></span>
+        <span class="hi">Edge ${edge}</span>
+        <span class="warn">Conf ${conf}</span>
+        <span class="info">Bet ${kelly}</span>
+        <span>Closes ${hours}</span>
+      </div>
+      ${s.reasoning ? `<div class="card-reasoning">${esc(s.reasoning)}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderMarkets(markets) {
+  const el = document.getElementById('mktList');
+  const cnt = document.getElementById('mktCount');
+  cnt.textContent = markets.length + ' found';
+  if (!markets.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><p>Markets populate after the first scan cycle.</p></div>';
+    return;
+  }
+  el.innerHTML = markets.map(m => {
+    const ask = m.yesAsk ? (m.yesAsk*100).toFixed(0) : '—';
+    const bid = m.yesBid ? (m.yesBid*100).toFixed(0) : '—';
+    const edge = m.edge ? (m.edge*100).toFixed(1)+'%' : '—';
+    const vol = m.volume ? (m.volume >= 1000 ? (m.volume/1000).toFixed(1)+'K' : Math.round(m.volume)) : '—';
+    const hours = m.hoursLeft != null ? fmtHours(m.hoursLeft) : '—';
+    const score = m.score ? m.score.toFixed(2) : '—';
+    // Price color: green if 55-82¢ sweet spot
+    const priceVal = m.yesAsk || 0;
+    const priceColor = priceVal >= 0.55 && priceVal <= 0.82 ? 'var(--green)' : priceVal >= 0.45 ? 'var(--orange)' : 'var(--text3)';
+    return `<div class="mkt-card">
+      <div class="mkt-top">
+        <div class="mkt-title">${esc(m.title || m.ticker)}</div>
+        <span class="badge badge-neutral" style="font-size:10px">${esc(m.ticker||'')}</span>
+      </div>
+      <div class="mkt-price-row">
+        <span class="mkt-ask" style="color:${priceColor}">${ask}¢</span>
+        <span class="mkt-bid">bid ${bid}¢</span>
+      </div>
+      <div class="mkt-meta" style="margin-top:6px">
+        <span class="hi">Edge ${edge}</span>
+        <span>Vol ${vol}</span>
+        <span>Closes ${hours}</span>
+        <span class="info">Score ${score}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderLogs(logs) {
+  const el = document.getElementById('logPanel');
+  if (!logs.length) {
+    el.innerHTML = '<div class="log-entry log-info">No logs yet…</div>';
+    return;
+  }
+  el.innerHTML = logs.map(l => {
+    let cls = 'log-info';
+    const lvl = (l.level || '').toUpperCase();
+    const msg = (l.msg || String(l));
+    if (lvl === 'ERROR') cls = 'log-error';
+    else if (lvl === 'WARN') cls = 'log-warn';
+    else if (msg.includes('TRADE') || msg.includes('Placed') || msg.includes('BUY')) cls = 'log-trade';
+    else if (msg.includes('Brain') || msg.includes('Claude') || msg.includes('brain')) cls = 'log-brain';
+    const ts = l.ts ? `[${l.ts}] ` : '';
+    return `<div class="log-entry ${cls}">${esc(ts + (lvl ? lvl+': ' : '') + msg)}</div>`;
+  }).join('');
+}
+
+function renderLastUpdate() {
+  const el = document.getElementById('lastUpdate');
+  if (lastUpdateTs) {
+    el.textContent = 'Updated ' + new Date(lastUpdateTs).toLocaleTimeString();
+  }
+}
+
+// ═══════════════════════════════════════════
+// LIVE FEED (SSE)
+// ═══════════════════════════════════════════
+function initSSE() {
+  try {
+    if (sseSource) { sseSource.close(); sseSource = null; }
+    const es = new EventSource(BASE + '/api/events');
+    sseSource = es;
+
+    es.addEventListener('update', e => {
+      try {
+        const d = JSON.parse(e.data);
+        // Trigger a fresh poll when we get a push
+        clearTimeout(pollTimer);
+        pollTimer = setTimeout(fetchState, 200);
+      } catch(err) {}
+    });
+
+    es.addEventListener('notify', e => {
+      try {
+        const d = JSON.parse(e.data);
+        pushFeed(d.msg);
+      } catch(err) {}
+    });
+
+    es.onerror = () => {
+      document.getElementById('feedDot').classList.remove('live');
+      // Reconnect after 15s
+      setTimeout(initSSE, 15000);
+    };
+
+    es.onopen = () => {
+      document.getElementById('feedDot').classList.add('live');
+    };
+  } catch(e) {
+    // SSE not supported or blocked — fall back to polling only
+    document.getElementById('feedDot').classList.remove('live');
+  }
+}
+
+function pushFeed(msg) {
+  if (!msg) return;
+  feedItems.unshift({ msg, ts: Date.now() });
+  if (feedItems.length > MAX_FEED) feedItems.pop();
+  const el = document.getElementById('feedList');
+  el.innerHTML = feedItems.map((f,i) =>
+    `<div class="feed-item" style="${i===0?'color:var(--text2)':''}">${esc(f.msg)}</div>`
+  ).join('');
+}
+
+// ═══════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════
+async function toggleBot() {
+  try {
+    document.getElementById('btnStart').disabled = true;
+    document.getElementById('btnStop').disabled = true;
+    await fetch(BASE + '/api/toggle', { method: 'POST' });
+    await fetchState();
+  } catch(e) {
+    console.error('toggle failed:', e);
+  } finally {
+    document.getElementById('btnStart').disabled = false;
+    document.getElementById('btnStop').disabled = false;
+  }
+}
+
+async function forceSync() {
+  if (isSyncing) return;
+  isSyncing = true;
+  const btn = document.getElementById('btnSync');
+  btn.innerHTML = '<div class="spin"></div> Sync';
+  btn.disabled = true;
+  try {
+    await fetch(BASE + '/api/sync', { method: 'POST' });
+    await fetchState();
+    pushFeed('🔄 Manual sync complete');
+  } catch(e) {
+    pushFeed('⚠️ Sync failed: ' + e.message);
+  } finally {
+    isSyncing = false;
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Sync`;
+    btn.disabled = false;
+  }
+}
+
+async function refreshNow() {
+  await fetchState();
+}
+
+// ═══════════════════════════════════════════
+// TEST MODAL
+// ═══════════════════════════════════════════
+function openTest() {
+  document.getElementById('testModal').classList.add('open');
+  runTest();
+}
+function closeTest() {
+  document.getElementById('testModal').classList.remove('open');
+}
+
+async function runTest() {
+  const body = document.getElementById('testBody');
+  body.innerHTML = '<div style="text-align:center;padding:28px"><div class="spin"></div><div style="margin-top:10px;color:var(--text3);font-size:13px">Testing Kalshi API…</div></div>';
+  try {
+    const res = await fetch(BASE + '/api/validate');
+    const d = await res.json();
+    const rows = [];
+    // Auth
+    rows.push(row(d.kalshiAuth === 'ok' || d.auth === 'ok', 'Authentication',
+      d.kalshiAuth === 'ok' || d.auth === 'ok' ? '✅ Connected' : '❌ ' + (d.authError || d.error || 'Failed')));
+    // Balance
+    if (d.balance != null) {
+      rows.push(row(true, 'Balance', fmt$(d.balance)));
+    } else if (d.balanceError) {
+      rows.push(row(false, 'Balance', '❌ ' + d.balanceError));
+    }
+    // Markets
+    if (d.marketsCount != null) {
+      rows.push(row(d.marketsCount > 0, 'Markets', d.marketsCount + ' found'));
+    } else if (d.markets) {
+      rows.push(row(!d.markets.includes('failed'), 'Markets', d.markets));
+    }
+    // Claude
+    if (d.claudeOk != null) {
+      rows.push(row(d.claudeOk, 'Claude AI', d.claudeOk ? '✅ Connected' : '❌ ' + (d.claudeError || 'Key missing')));
+    }
+    // Telegram
+    if (d.telegramOk != null) {
+      rows.push(row(d.telegramOk, 'Telegram', d.telegramOk ? '✅ Connected' : '⚠️ Not configured'));
+    }
+    body.innerHTML = rows.join('') || '<div class="test-row"><div class="lbl">Result</div><div class="val">No details returned from server.</div></div>';
+  } catch(e) {
+    body.innerHTML = row(false, 'Connection Error', e.message);
+  }
+}
+
+function row(ok, label, val) {
+  return `<div class="test-row ${ok?'ok':'fail'}">
+    <div class="lbl">${esc(label)}</div>
+    <div class="val">${esc(val)}</div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// POLLING LOOP
+// ═══════════════════════════════════════════
+function startPoll() {
+  fetchState();
+  pollTimer = setInterval(fetchState, POLL_MS);
+}
+
+// ═══════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════
+startPoll();
+initSSE();
+</script>
+</body>
+</html>
